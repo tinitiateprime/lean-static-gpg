@@ -1,7 +1,7 @@
 name: Build Static GPG
 
 on:
-  workflow_dispatch:  # Trigger manually
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,13 +21,20 @@ jobs:
           chmod +x ./build.sh
           ./build.sh
 
-      - name: Create /bin Folder
+      - name: List All Files After Build (Debug)
+        run: |
+          echo "Listing all files recursively..."
+          find . -type f
+
+      - name: Move GPG Binary to bin/
         run: |
           mkdir -p bin
-          cp gpg bin/gpg
+          GPG_PATH=$(find . -type f -name "gpg" | head -n 1)
+          echo "Found GPG binary at: $GPG_PATH"
+          cp "$GPG_PATH" bin/gpg
           chmod +x bin/gpg
 
-      - name: Upload Built Binary to GitHub Artifacts
+      - name: Upload Built GPG Binary as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: gpg-static

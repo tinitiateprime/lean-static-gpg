@@ -194,10 +194,11 @@ tar -C "$WORK" -xjf download/gnupg-$GNUPG_VERSION.tar.bz2
         --disable-scdaemon \
         --disable-sqlite \
         --disable-wks-tools \
-        --disable-zip
+        --disable-zip \
+        --disable-doc
     make -kj$NJOBS
-    make install DESTDIR="$DESTDIR"
-    rm "$DESTDIR$PREFIX/bin/gpgscm"
+    make -k install DESTDIR="$DESTDIR"
+    rm "$DESTDIR$PREFIX/bin/gpgscm" 2>/dev/null || true
 )
 
 tar -C "$WORK" -xjf download/pinentry-$PINENTRY_VERSION.tar.bz2
@@ -228,3 +229,4 @@ tar -C "$WORK" -xjf download/pinentry-$PINENTRY_VERSION.tar.bz2
 rm -rf "$DESTDIR$PREFIX/sbin"
 rm -rf "$DESTDIR$PREFIX/share/doc"
 rm -rf "$DESTDIR$PREFIX/share/info"
+rm -rf "$DESTDIR$PREFIX/share/man"  # Prevent manpage-related install errors

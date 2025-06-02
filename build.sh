@@ -40,9 +40,9 @@ download() {
     mkdir -p download
     (
         cd download/
-        xargs -n1 curl -O <<EOF
+        xargs -n1 curl -LO <<EOF
 https://www.musl-libc.org/releases/musl-$MUSL_VERSION.tar.gz
-$gnupgweb/gnupg/gnupg-$GNUPG_VERSION.tar.bz2
+$gnupgweb/gnupg/gnupg-$GNUPG_VERSION.tar.xz
 $gnupgweb/libassuan/libassuan-$LIBASSUAN_VERSION.tar.bz2
 $gnupgweb/libgcrypt/libgcrypt-$LIBGCRYPT_VERSION.tar.bz2
 $gnupgweb/libgpg-error/libgpg-error-$LIBGPGERROR_VERSION.tar.bz2
@@ -159,7 +159,7 @@ tar -C "$WORK" -xjf download/libksba-$LIBKSBA_VERSION.tar.bz2
     make install
 )
 
-tar -C "$WORK" -xjf download/gnupg-$GNUPG_VERSION.tar.bz2
+tar -C "$WORK" -xJf download/gnupg-$GNUPG_VERSION.tar.xz
 (
     mkdir -p "$WORK/gnupg"
     cd "$WORK/gnupg"
